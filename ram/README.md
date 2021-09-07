@@ -2,8 +2,8 @@
 
 A new Flutter project. This project is about developing a small game that has two elements
 
-a) Optical Character Recognition of Traffic Number Plates. This is required manually in the game now. We can use the Reveal button to skip that option.
-b) Fitting an equation to the recognized numbers. For example if the plate is 2244, you can type (2/2)=(4/4) , (2*4) = (2*4) , (2^4) = (2^4) and so on. Any one of this will clear the level and guve you points.
+1) Optical Character Recognition of Traffic Number Plates. This is required manually in the game now. We can use the Reveal button to skip that option.
+2) Fitting an equation to the recognized numbers. For example if the plate is 2244, you can type (2/2)=(4/4) , (2*4) = (2*4) , (2^4) = (2^4) and so on. Any one of this will clear the level and guve you points.
 
 
 # Status
