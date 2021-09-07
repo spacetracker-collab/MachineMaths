@@ -6,6 +6,8 @@ A new Flutter project. This project is about developing a small game that has th
 2) Fitting an equation to the recognized numbers. For example if the plate is 2244, you can type (2/2)=(4/4) , (2*4) = (2*4) , (2^4) = (2^4) and so on. Any one of this will clear the level and give you points.
 3) The game is single user. It is proposed to have a time limit of 2 minutes (TBD) for recognition and 5 minutes (TBD) for problem solution.
 
+This game was invented by me in 2012
+
 
 # Status
 
@@ -14,7 +16,7 @@ This game is **under development**. I have coded in D3, JointJS, AngularJS1.2, A
 # Learning
 
 1) https://app.pluralsight.com/library/courses/flutter-big-picture
-2) 
+
 # Resources
 
 1) https://kodestat.gitbook.io/flutter/21-flutter-updating-data-in-textfield
