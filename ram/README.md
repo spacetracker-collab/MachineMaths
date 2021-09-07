@@ -11,7 +11,10 @@ A new Flutter project. This project is about developing a small game that has th
 
 This game is **under development**. I have coded in D3, JointJS, AngularJS1.2, Angular 7 and React. This game was created and done with a side objective of learning Flutter.
 
+# Learning
 
+1) https://app.pluralsight.com/library/courses/flutter-big-picture
+2) 
 # Resources
 
 1) https://kodestat.gitbook.io/flutter/21-flutter-updating-data-in-textfield
