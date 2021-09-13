@@ -1,9 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ram/EquationPage.dart';
-
-import 'LoadImagePage.dart';
-import 'EquationPage.dart';
-import  'SolverPage.dart';
 import 'main.dart';
 
 class Scorecard extends StatelessWidget {
@@ -12,8 +7,11 @@ class Scorecard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const title = 'Grid List';
-    return Scaffold(
+    const title = 'Scores';
+
+    return new WillPopScope(
+        onWillPop: () async => false,
+      child: new Scaffold(
         appBar: AppBar(
           title: Text("Scores"),
         ),
@@ -148,6 +146,6 @@ class Scorecard extends StatelessWidget {
         )
 
 
-    );
+    ));
   }
 }

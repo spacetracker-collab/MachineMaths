@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:ram/EquationPage.dart';
-import 'dart:math';
 import 'package:math_expressions/math_expressions.dart';
-import 'LoadImagePage.dart';
-import 'EquationPage.dart';
 import 'Scorecard.dart';
+import 'globals.dart' as globals;
+import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
+import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
+
 
 class SolverPage extends StatelessWidget {
 
   final _controller = TextEditingController();
+
 
   bool _verifySolution (String equation)
   {
@@ -41,6 +42,20 @@ class SolverPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const title = 'Create Equation';
+    int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 20;
+    void onEnd() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Scorecard()),
+      );
+      print('onEnd');
+
+    }
+    var countDownController = CountdownTimerController(endTime: endTime, onEnd: onEnd);
+
+
+
+    String equationString = "Solve for " + globals.equation;
 
     return MaterialApp(
       title: title,
@@ -54,8 +69,13 @@ class SolverPage extends StatelessWidget {
         child: ButtonBar(
             children: [
 
+              CountdownTimer(
+                controller: countDownController,
+                onEnd: onEnd,
+                endTime: endTime,
+              ),
               Text(
-                'Good going.\n Fit an equation to \n 0-3-9-9-9-3',
+                equationString,
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(  color: Colors.black,
@@ -88,25 +108,31 @@ class SolverPage extends StatelessWidget {
                     child: Text("1"),
                     textColor: Colors.white,
                     color: Colors.green,
-                    onPressed: (){},
+                    onPressed: (){
+                      _controller.text =  _controller.text + "1";
+                    },
                   ),
                   RaisedButton(
                     child: Text("2"),
                     textColor: Colors.white,
                     color: Colors.green,
-                    onPressed: (){},
+                    onPressed: (){
+                      _controller.text =  _controller.text + "2";
+                    },
                   ),
                   RaisedButton(
                     child: Text("3"),
                     textColor: Colors.white,
                     color: Colors.green,
-                    onPressed: (){},
+                    onPressed: (){ _controller.text =  _controller.text + "3";},
                   ),
                   RaisedButton(
                     child: Text("4"),
                     textColor: Colors.white,
                     color: Colors.green,
-                    onPressed: (){},
+                    onPressed: (){
+                      _controller.text =  _controller.text + "4";
+                    },
                   ),
                 ],
               ),
@@ -117,25 +143,33 @@ class SolverPage extends StatelessWidget {
               child: Text("5"),
               textColor: Colors.white,
               color: Colors.green,
-              onPressed: (){},
+              onPressed: (){
+                _controller.text =  _controller.text + "5";
+              },
             ),
             RaisedButton(
               child: Text("6"),
               textColor: Colors.white,
               color: Colors.green,
-              onPressed: (){},
+              onPressed: (){
+                _controller.text =  _controller.text + "6";
+              },
             ),
             RaisedButton(
               child: Text("7"),
               textColor: Colors.white,
               color: Colors.green,
-              onPressed: (){},
+              onPressed: (){
+                _controller.text =  _controller.text + "7";
+              },
             ),
             RaisedButton(
               child: Text("8"),
               textColor: Colors.white,
               color: Colors.green,
-              onPressed: (){},
+              onPressed: (){
+                _controller.text =  _controller.text + "8";
+              },
             ),
           ],
         ),
@@ -143,90 +177,137 @@ class SolverPage extends StatelessWidget {
               ButtonBar(
                 children: [
                   RaisedButton(
+                    child: Text("9"),
+                    textColor: Colors.white,
+                    color: Colors.green,
+                    onPressed: (){
+                      _controller.text =  _controller.text + "9";
+                    },
+                  ),
+
+                  RaisedButton(
                     child: Text("0"),
                     textColor: Colors.white,
                     color: Colors.green,
-                    onPressed: (){},
+                    onPressed: (){
+                      _controller.text =  _controller.text + "0";
+                    },
                   ),
                   RaisedButton(
                     child: Text("*"),
                     textColor: Colors.white,
                     color: Colors.green,
-                    onPressed: (){},
+                    onPressed: (){
+                      _controller.text =  _controller.text + "*";
+                    },
                   ),
                   RaisedButton(
                     child: Text("^"),
                     textColor: Colors.white,
                     color: Colors.green,
-                    onPressed: (){},
+                    onPressed: (){
+                      _controller.text =  _controller.text + "^";
+                    },
                   ),
-                  RaisedButton(
-                    child: Text("/"),
-                    textColor: Colors.white,
-                    color: Colors.green,
-                    onPressed: (){},
-                  ),
+
                 ],
               ),
 
               ButtonBar(
                 children: [
                   RaisedButton(
+                    child: Text("/"),
+                    textColor: Colors.white,
+                    color: Colors.green,
+                    onPressed: (){
+                      _controller.text =  _controller.text + "/";
+                    },
+                  ),
+                  RaisedButton(
                     child: Text("%"),
                     textColor: Colors.white,
                     color: Colors.green,
-                    onPressed: (){},
+                    onPressed: (){
+                      _controller.text =  _controller.text + "%";
+                    },
                   ),
                   RaisedButton(
                     child: Text("+"),
                     textColor: Colors.white,
                     color: Colors.green,
-                    onPressed: (){},
+                    onPressed: (){ _controller.text =  _controller.text + "+";},
                   ),
                   RaisedButton(
                     child: Text("-"),
                     textColor: Colors.white,
                     color: Colors.green,
-                    onPressed: (){},
+                    onPressed: (){
+                      _controller.text =  _controller.text + "-";
+                    },
                   ),
-                  RaisedButton(
-                    child: Text("="),
-                    textColor: Colors.white,
-                    color: Colors.green,
-                    onPressed: (){},
-                  ),
+
                 ],
               ),
 
               ButtonBar(
                 children: [
                   RaisedButton(
+                    child: Text("="),
+                    textColor: Colors.white,
+                    color: Colors.green,
+                    onPressed: (){
+                      _controller.text =  _controller.text + "=";
+                    },
+                  ),
+                  RaisedButton(
                     child: Text("("),
                     textColor: Colors.white,
                     color: Colors.green,
-                    onPressed: (){},
+                    onPressed: (){ _controller.text =  _controller.text + "(";},
                   ),
                   RaisedButton(
                     child: Text(")"),
                     textColor: Colors.white,
                     color: Colors.green,
-                    onPressed: (){},
+                    onPressed: (){
+                      _controller.text =  _controller.text + ")";
+                    },
                   ),
                   RaisedButton(
-                    child: Text("1/x"),
+                    child: Text("Del"),
                     textColor: Colors.white,
                     color: Colors.green,
-                    onPressed: (){},
-                  ),
-                  RaisedButton(
-                    child: Text("AC"),
-                    textColor: Colors.white,
-                    color: Colors.green,
-                    onPressed: (){},
+                    onPressed: (){
+                      if (_controller.text.isEmpty) return;
+                      if(_controller.text.length == 1)
+                      {
+                          _controller.text="";
+                          return;
+                      }
+                      var substring_text = _controller.text.substring(0, _controller.text.length-1);
+                      _controller.text = substring_text;
+                      return;
+
+
+                    },
                   ),
                 ],
               ),
 
+              ButtonBar(
+                children: [
+
+                  RaisedButton(
+                    child: Text("Cls"),
+                    textColor: Colors.white,
+                    color: Colors.green,
+                    onPressed: (){
+                      _controller.text = "";
+                    },
+                  ),
+
+                ],
+              ),
 
           TextButton(
 
@@ -242,7 +323,7 @@ class SolverPage extends StatelessWidget {
 
                   color: Colors.black,
 
-                  fontSize: 40,
+                  fontSize: 12,
 
                   fontStyle: FontStyle.italic
 
@@ -264,34 +345,6 @@ class SolverPage extends StatelessWidget {
 
 
           ),
-                ButtonBar(
-                children: [
-                  RaisedButton(
-                    child: Text("Clear Current"),
-                    textColor: Colors.white,
-                    color: Colors.green,
-                    onPressed: (){},
-                  ),
-                  RaisedButton(
-                    child: Text("Clear All"),
-                    textColor: Colors.white,
-                    color: Colors.green,
-                    onPressed: (){},
-                  ),
-                  RaisedButton(
-                    child: Text("->"),
-                    textColor: Colors.white,
-                    color: Colors.green,
-                    onPressed: (){},
-                  ),
-                  RaisedButton(
-                    child: Text("<-"),
-                    textColor: Colors.white,
-                    color: Colors.green,
-                    onPressed: (){},
-                  ),
-                ],
-              ),
 
 
 

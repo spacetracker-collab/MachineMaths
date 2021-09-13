@@ -1,10 +1,98 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'LoadImagePage.dart';
-import 'EquationPage.dart';
 import 'globals.dart' as globals;
+import 'package:sqflite/sqflite.dart';
+import 'dart:async';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:path/path.dart' as paths;
+import 'dart:typed_data';
+import 'package:flutter/services.dart';
 
 
-void main() {
+class NumberPlate {
+  int assetId;
+  String imageDigits;
+
+  NumberPlate({
+    required this.assetId,
+    required this.imageDigits,
+  });
+}
+
+Future<void> openPlatesDb() async{
+
+  var databasesPath = await getDatabasesPath();
+  var path = paths.join(databasesPath, "plate_internal.db");
+
+// Check if the database exists
+  var exists = await databaseExists(path);
+  exists = false; //always copy //todo
+  if (!exists) {
+    // Should happen only the first time you launch your application
+    print("Creating new copy from asset");
+
+    // Make sure the parent directory exists
+    try {
+      await Directory(paths.dirname(path)).create(recursive: true);
+    } catch (_) {}
+
+    // Copy from asset
+    ByteData data = await rootBundle.load(paths.join("assets", "plate.db"));
+    List<int> bytes =
+    data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+
+    // Write and flush the bytes written
+    await File(path).writeAsBytes(bytes, flush: true);
+
+  } else {
+    print("Opening existing database");
+  }
+// open the database
+  globals.plateDb = await openDatabase(path, readOnly: true);
+
+
+
+}
+
+
+// A method that retrieves all the dogs from the dogs table.
+Future<List<NumberPlate>> numberPlates() async {
+  // Get a reference to the database.
+
+
+  // Query the table for all The Dogs.
+  final List<Map<String, dynamic>> maps = await globals.plateDb!.query('NumberPlate');
+
+  // Convert the List<Map<String, dynamic> into a List<Dog>.
+  return List.generate(maps.length, (i) {
+    return NumberPlate(
+      assetId: maps[i]['assetId'],
+      imageDigits: maps[i]['imageDigits'],
+
+
+    );
+  });
+}
+
+void main() async{
+
+
+
+  WidgetsFlutterBinding.ensureInitialized();
+  // Open the database and store the reference.
+
+   await openPlatesDb();
+   print(globals.plateDb.toString()+ ":");
+
+
+
+  List <NumberPlate> nm = await numberPlates();
+  nm.forEach((NumberPlate) {
+    print(NumberPlate.assetId.toString());
+    print(NumberPlate.imageDigits.toString());
+   });
   runApp(const MyApp());
 }
 
@@ -98,6 +186,7 @@ class _MyHomePageState extends State<MyHomePage> {
     String nameOfPlayer = globals.playerName;
     _controller.text=nameOfPlayer;
 
+
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -135,7 +224,7 @@ class _MyHomePageState extends State<MyHomePage> {
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(  color: Colors.black,
-                  fontSize: 40,
+                  fontSize: 12,
                   fontStyle: FontStyle.italic),
             ),
             SizedBox(height: 10),
@@ -168,7 +257,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                       color: Colors.black,
 
-                      fontSize: 20,
+                      fontSize: 12,
 
                       fontStyle: FontStyle.italic
 
@@ -178,9 +267,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
               onPressed: () {
-                globals.playerName=this.val.toString();
-                print(this.val);
-                if(this.val.isEmpty) {
+                if(globals.playerName.isEmpty) globals.playerName  = _controller.text;
+                if(globals.playerName.isEmpty) {
                   this._showDialog();
                 }
                 else{
