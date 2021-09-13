@@ -89,6 +89,7 @@ flutter:
      - assets/21.png
      - assets/0.png
      - assets/plate.db
+     - assets/score.db
 
 
   #   - images/a_dot_ham.jpeg

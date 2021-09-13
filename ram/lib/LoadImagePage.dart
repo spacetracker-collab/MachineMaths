@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
+import 'package:ram/main.dart';
 import 'dart:math';
 import 'Scorecard.dart';
 import 'globals.dart' as globals;
@@ -19,9 +20,29 @@ class LoadImagePage extends StatelessWidget {
   String _getRandomPath()
   {
     Random random = new Random();
-    int randomNumber = random.nextInt(20);
-    String randomNumString = randomNumber.toString();
-    String result = "assets/"+randomNumString+".png";
+
+    print(globals.maxPlate);
+    if(globals.maxPlate > 0) {
+      globals.thisPlate = random.nextInt(globals.maxPlate);
+    }
+    else
+      {
+        globals.thisPlate = 1;
+      }
+      globals.numberPlate.forEach((NumberPlate) {
+      globals.maxPlate=0;
+      if (NumberPlate.assetId == globals.thisPlate)
+      {
+        globals.thisPlateNum =  NumberPlate.imageDigits;
+      }
+
+    });
+    //print("Globals " + globals.thisPlate.toString());
+    //print("Globals " + globals.thisPlateNum.toString());
+
+    String thisPlateString = globals.thisPlate.toString();
+    String result = "assets/"+thisPlateString+".png";
+
     return result;
   }
 
@@ -31,7 +52,9 @@ class LoadImagePage extends StatelessWidget {
       child: Text("Ok"),
       onPressed:  () {
 
-        Navigator.of(context).pop();
+        Navigator.of(context,rootNavigator: true).pop();
+        print('onEnd');
+
       },
     );
 
@@ -56,7 +79,7 @@ class LoadImagePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 20;
+    int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 300;
     void onEnd() {
       Navigator.push(
         context,
@@ -129,13 +152,18 @@ class LoadImagePage extends StatelessWidget {
 
                 onPressed: () {
                   print(_controller.text);
-                  if (this.val.isEmpty) {
+                  if ((this.val.isEmpty) ||
+                    (globals.thisPlateNum != _controller.text))
+                  {
                     print("Empty");
                     this.showAlertDialog(context);
                     //this._showDialog(context);
                   }
                   else {
-                    globals.equation = _controller.text;
+
+
+                    globals.equation = globals.thisPlateNum;
+                    //globals.equation = _controller.text;
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) =>
@@ -192,7 +220,7 @@ class LoadImagePage extends StatelessWidget {
                 fit:BoxFit.fill),
             SizedBox(height: 10),
             Text(
-              'Enter the numbers from image',
+              'Enter the numbers from image in same order. No retries.',
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(  color: Colors.black,

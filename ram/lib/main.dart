@@ -21,6 +21,41 @@ class NumberPlate {
   });
 }
 
+
+Future<void> openScoresDb() async{
+
+  var databasesPath = await getDatabasesPath();
+  var path = paths.join(databasesPath, "scores_internal.db");
+
+// Check if the database exists
+  var exists = await databaseExists(path);
+  exists = false; //always copy //todo
+  if (!exists) {
+    // Should happen only the first time you launch your application
+    print("Creating new score copy from asset");
+
+    // Make sure the parent directory exists
+    try {
+      await Directory(paths.dirname(path)).create(recursive: true);
+    } catch (_) {}
+
+    // Copy from asset
+    ByteData data = await rootBundle.load(paths.join("assets", "score.db"));
+    List<int> bytes =
+    data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+
+    // Write and flush the bytes written
+    await File(path).writeAsBytes(bytes, flush: true);
+
+  } else {
+    print("Opening existing database");
+  }
+// open the database
+  globals.scoreDb = await openDatabase(path, readOnly: true);
+
+}
+
+
 Future<void> openPlatesDb() async{
 
   var databasesPath = await getDatabasesPath();
@@ -84,12 +119,17 @@ void main() async{
   // Open the database and store the reference.
 
    await openPlatesDb();
+   await openScoresDb();
+
    print(globals.plateDb.toString()+ ":");
-
-
-
-  List <NumberPlate> nm = await numberPlates();
-  nm.forEach((NumberPlate) {
+   print(globals.numberPlate.toString()+"**");
+  globals.numberPlate = await numberPlates();
+  globals.numberPlate.forEach((NumberPlate) {
+    globals.maxPlate=0;
+    if (NumberPlate.assetId > globals.maxPlate)
+    {
+      globals.maxPlate = NumberPlate.assetId;
+    }
     print(NumberPlate.assetId.toString());
     print(NumberPlate.imageDigits.toString());
    });
