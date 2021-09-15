@@ -26,3 +26,9 @@ This game is **under development**. I have coded in D3, JointJS, AngularJS1.2, A
 5) https://www.woolha.com/tutorials/flutter-using-textbutton-widget-examples
 6) https://www.javatpoint.com/flutter-installation
 7) https://www.tutorialspoint.com/flutter/flutter_conclusion.htm
+
+# Architecture
+
+This application or product is not architecturally compliant. It uses Globals.
+It needs refactoring. It wil be rewritten with frameworks like Stacked.
+https://pub.dev/packages/stacked
